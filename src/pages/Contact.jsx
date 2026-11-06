@@ -1,161 +1,533 @@
-export default function Contact() {
-    return (
-    <div className="bg-[#F8F9FA] pb-20 min-h-screen">
-        {/* Hero Section */}
-        <section className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-            <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest text-[#4285F4] uppercase mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]"></span>
-            Contact • Let's Connect
-            </div>
-            <h1 className="text-5xl md:text-[56px] font-bold text-gray-900 leading-tight tracking-tight mb-4">
-            Good things start with <span className="text-[#4285F4]">hello.</span>
-            </h1>
-            <p className="text-[15px] text-gray-600 max-w-lg">
-            A question, a collaboration, or an idea for the community? Tell us what's on your mind.
-            </p>
-        </div>
-        </section>
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, CircleHelp, Diamond, Plus } from "lucide-react";
 
-        {/* Main Grid */}
-        <section className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-8 items-start">
-        {/* Left Column - Navigation */}
-        <div className="w-full md:w-4/12 space-y-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">What brings you here?</h3>
-            <p className="text-[13px] text-gray-500 mb-6">Pick the closest topic in the form. We'll take it from there.</p>
-            
-            <div className="space-y-3">
-            {/* Active Card */}
-            <div className="bg-[#E8F0FE] border border-[#4285F4] rounded-2xl p-5 flex items-start gap-4">
-                <span className="text-[#4285F4] font-bold text-xl mt-0.5">↗</span>
-                <div>
-                <h4 className="font-semibold text-[14px] text-gray-900">Joining & learning</h4>
-                <p className="text-[12px] text-gray-600 mt-1">Getting started, learning tracks, and participation</p>
-                </div>
-            </div>
-            
-            {/* Inactive Cards */}
-            {[
-                { icon: '+', title: 'Collaboration', desc: 'Community activities and shared ideas' },
-                { icon: '◇', title: 'Speaking & sharing', desc: 'Workshops, knowledge sharing, and mentorship' },
-                { icon: '?', title: 'General inquiry', desc: "Anything else you'd like to ask" }
-            ].map((item, idx) => (
-                <div key={idx} className="bg-white border border-gray-200 rounded-2xl p-5 flex items-start gap-4 hover:border-gray-300 transition cursor-pointer">
-                <span className="text-gray-400 font-bold text-xl mt-0.5">{item.icon}</span>
-                <div>
-                    <h4 className="font-semibold text-[14px] text-gray-900">{item.title}</h4>
-                    <p className="text-[12px] text-gray-500 mt-1">{item.desc}</p>
-                </div>
-                </div>
-            ))}
-            </div>
+const inquiryTypes = [
+  {
+    icon: ArrowUpRight,
+    title: "Joining & learning",
+    description: "Getting started, learning tracks, and participation",
+  },
+  {
+    icon: Plus,
+    title: "Collaboration",
+    description: "Community activities and shared ideas",
+  },
+  {
+    icon: Diamond,
+    title: "Speaking & sharing",
+    description: "Workshops, knowledge sharing, and mentorship",
+  },
+  {
+    icon: CircleHelp,
+    title: "General inquiry",
+    description: "Anything else you’d like to ask",
+  },
+];
 
-            {/* Yellow Card */}
-            <div className="bg-[#FEF7E0] rounded-2xl p-6 mt-8">
-            <div className="flex items-center gap-2 text-[9px] font-bold tracking-widest text-gray-500 uppercase mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FBBC05]"></span>
-                Stay curious, stay connected
-            </div>
-            <h4 className="font-bold text-gray-900 text-lg mb-2 leading-tight">Looking for community updates?</h4>
-            <p className="text-[13px] text-gray-700 mb-4">
-                Follow <span className="font-bold">@gdgoc.ugm</span> for learning opportunities and what's happening in the community.
-            </p>
-            <a href="#" className="text-[#4285F4] text-[13px] font-semibold flex items-center gap-1 hover:underline">
-                Find @gdgoc.ugm <span>→</span>
+const guidance = [
+  {
+    title: "For learning questions",
+    description:
+      "Tell us which topic interests you and where you are in your learning journey.",
+  },
+  {
+    title: "For collaborations",
+    description:
+      "Share the idea, who it’s for, and how you imagine working with the community.",
+  },
+  {
+    title: "Not sure which category fits?",
+    description:
+      "Choose General inquiry. A clear question is always a good starting point.",
+  },
+];
+
+const navigation = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Overview", href: "/about#overview" },
+  { label: "Contact", href: "/contact" },
+];
+
+function ContactHeader() {
+  return (
+    <header className="w-full border-b border-[#DADCE0] bg-white">
+      <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-5 px-5 sm:px-8 lg:min-h-[104px] lg:px-16">
+        <a
+          href="/about"
+          aria-label="GDGoC UGM home"
+          className="flex shrink-0 items-center gap-2.5"
+        >
+          <img className="h-9 w-[69px] object-contain" src="/gdg-logo.png" alt="" />
+          <img
+            className="hidden h-[39px] w-[265px] object-contain sm:block"
+            src="/gdgoc-wordmark.svg"
+            alt="Google Developer Groups on Campus, Universitas Gadjah Mada"
+          />
+        </a>
+
+        <nav aria-label="Main navigation" className="hidden items-center gap-2 lg:flex">
+          {navigation.map((item) =>
+            item.label === "Contact" ? (
+              <NavLink
+                key={item.label}
+                to={item.href}
+                className={({ isActive }) =>
+                  `rounded-full px-5 py-3.5 font-googleSans text-base transition-colors ${
+                    isActive
+                      ? "bg-[#EAF2FF] font-bold text-[#1967D2]"
+                      : "text-[#5F6368] hover:bg-gray-50"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ) : (
+              <a
+                key={item.label}
+                href={item.href}
+                className="rounded-full px-5 py-3.5 font-googleSans text-base text-[#5F6368] transition-colors hover:bg-gray-50"
+              >
+                {item.label}
+              </a>
+            ),
+          )}
+        </nav>
+
+        <a
+          href="#inquiry-form"
+          className="inline-flex shrink-0 items-center gap-3 rounded-lg bg-[#4285F4] px-4 py-3 font-googleSans text-sm font-medium text-white transition-colors hover:bg-[#3367D6] sm:px-6 sm:text-base"
+        >
+          Find your track
+          <ArrowRight aria-hidden="true" size={19} strokeWidth={1.7} />
+        </a>
+      </div>
+      <nav
+        aria-label="Mobile navigation"
+        className="flex justify-center gap-2 pb-3 lg:hidden"
+      >
+        {navigation.slice(1).map((item) =>
+          item.label === "Contact" ? (
+            <NavLink
+              key={item.label}
+              to={item.href}
+              className={({ isActive }) =>
+                `rounded-full px-4 py-2 font-googleSans text-sm ${
+                  isActive ? "bg-[#EAF2FF] font-bold text-[#1967D2]" : "text-[#5F6368]"
+                }`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ) : (
+            <a
+              key={item.label}
+              href={item.href}
+              className="rounded-full px-4 py-2 font-googleSans text-sm text-[#5F6368]"
+            >
+              {item.label}
             </a>
-            </div>
-        </div>
+          ),
+        )}
+      </nav>
+    </header>
+  );
+}
 
-        {/* Right Column - Form */}
-        <div className="w-full md:w-8/12 bg-white rounded-3xl p-10 border border-gray-200 shadow-sm">
-            <div className="flex justify-between items-start mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Send us a message</h2>
-            <span className="text-[#4285F4] text-2xl font-bold">↗</span>
-            </div>
-            <p className="text-[12px] text-gray-500 mb-8">Fields marked * are required.</p>
-            
-            <form className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">First name *</label>
-                <input type="text" placeholder="Your first name" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4]" />
-                </div>
-                <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">Last name</label>
-                <input type="text" placeholder="Your last name" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4]" />
-                </div>
-            </div>
-
-            <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">Email address *</label>
-                <input type="email" placeholder="Where we can reply to you" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4]" />
-            </div>
-
-            <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">University / organization</label>
-                <input type="text" placeholder="Where you study or work (optional)" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4]" />
-            </div>
-
-            <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">Inquiry category *</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4] bg-white appearance-none">
-                <option>Joining & learning</option>
-                </select>
-            </div>
-
-            <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">Subject *</label>
-                <input type="text" placeholder="A short introduction to your question" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4]" />
-            </div>
-
-            <div>
-                <label className="block text-[12px] font-bold text-gray-800 mb-2">Your message *</label>
-                <textarea rows="4" placeholder="Tell us a little about your question or idea..." className="w-full px-4 py-3 rounded-xl border border-gray-300 text-[14px] focus:outline-none focus:border-[#4285F4] resize-none"></textarea>
-            </div>
-
-            <div className="flex items-start gap-3">
-                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-[#4285F4] focus:ring-[#4285F4]" />
-                <p className="text-[12px] text-gray-600">I agree that the information I share can be used to respond to this inquiry.</p>
-            </div>
-
-            <div className="flex items-center justify-between pt-4">
-                <button type="button" className="bg-[#4285F4] hover:bg-blue-600 text-white px-6 py-2.5 rounded-lg text-[13px] font-medium flex items-center gap-2 transition">
-                Send message <span>→</span>
-                </button>
-                <p className="text-[11px] text-gray-400 max-w-[200px] text-right">
-                Please don't include passwords or sensitive personal information.
-                </p>
-            </div>
-            </form>
-        </div>
-        </section>
-
-        {/* Bottom Guidance */}
-        <section className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-16 border-t border-gray-200 mt-8">
-        <div className="w-full md:w-4/12">
-            <div className="flex items-center gap-2 text-[9px] font-bold tracking-widest text-[#4285F4] uppercase mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]"></span>
-            A little guidance
-            </div>
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">Help us understand your idea.</h3>
-            <a href="#" className="text-[#4285F4] text-[13px] font-semibold flex items-center gap-1 hover:underline">
-            Explore the programs first <span>→</span>
+function ContactFooter() {
+  return (
+    <footer className="w-full bg-[#F1F3F4] px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
+      <div className="mx-auto max-w-[1248px]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_150px_260px] lg:gap-16">
+          <div className="max-w-[480px]">
+            <a href="/about" className="flex w-fit items-center gap-3">
+              <img className="h-10 w-[72px] object-contain" src="/gdg-logo.png" alt="" />
+              <img
+                className="h-10 w-[250px] max-w-full object-contain sm:w-[293px]"
+                src="/gdgoc-wordmark.svg"
+                alt="Google Developer Groups on Campus, Universitas Gadjah Mada"
+              />
             </a>
-        </div>
-        
-        <div className="w-full md:w-8/12 flex flex-col divide-y divide-gray-200">
-            {[
-            { title: 'For learning questions', desc: 'Tell us which topic interests you and where you are in your learning journey.' },
-            { title: 'For collaborations', desc: 'Share the idea, who it\'s for, and how you imagine working with the community.' },
-            { title: 'Not sure which category fits?', desc: 'Choose General inquiry. A clear question is always a good starting point.' }
-            ].map((item, idx) => (
-            <div key={idx} className="py-6 first:pt-0 last:pb-0">
-                <h4 className="font-bold text-[15px] text-gray-900 mb-1">{item.title}</h4>
-                <p className="text-[13px] text-gray-600">{item.desc}</p>
-            </div>
+            <p className="mt-5 font-googleSans text-sm leading-relaxed text-[#5F6368]">
+              A student community for curious minds, shared learning, and technology with purpose.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start gap-3.5">
+            <h2 className="font-googleSans text-sm font-bold text-[#242424]">Explore</h2>
+            {navigation.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="font-googleSans text-sm text-[#5F6368] transition-colors hover:text-[#1967D2]"
+              >
+                {item.label}
+              </a>
             ))}
+          </div>
+
+          <div className="flex flex-col items-start gap-3.5">
+            <h2 className="font-googleSans text-sm font-bold text-[#242424]">Keep in the loop</h2>
+            <a
+              href="https://www.instagram.com/gdgoc.ugm/"
+              className="font-googleSans text-base text-[#1967D2] hover:underline"
+            >
+              @gdgoc.ugm
+            </a>
+            <div className="flex items-center gap-4 text-[#5F6368]">
+              <a
+                href="https://www.instagram.com/gdgoc.ugm/"
+                aria-label="GDGoC UGM on Instagram"
+                className="transition-colors hover:text-[#1967D2]"
+              >
+                <svg aria-hidden="true" width="19" height="19" viewBox="0 0 20 20" fill="none">
+                  <rect
+                    x="1.25"
+                    y="1.25"
+                    width="17.5"
+                    height="17.5"
+                    rx="5.25"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  <circle cx="10" cy="10" r="4" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="15.25" cy="4.75" r="1" fill="currentColor" />
+                </svg>
+              </a>
+              <a
+                href="https://www.youtube.com/"
+                aria-label="GDGoC UGM on YouTube"
+                className="transition-colors hover:text-[#1967D2]"
+              >
+                <svg aria-hidden="true" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <rect
+                    x="0.75"
+                    y="1"
+                    width="18.5"
+                    height="14"
+                    rx="4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M8 5L13 8L8 11V5Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            </div>
+            <p className="font-googleSans text-xs text-[#5F6368]">
+              Learn together. Build together.
+            </p>
+          </div>
         </div>
-        </section>
+
+        <div className="my-8 h-px w-full bg-[#DADCE0]" />
+        <div className="flex flex-col gap-2 font-googleSans text-[11px] text-[#5F6368] sm:flex-row sm:items-center sm:justify-between">
+          <p>© GDGoC Universitas Gadjah Mada • 2026/2027</p>
+          <p>Made for the campus. Open to possibilities.</p>
+        </div>
+        <div className="mt-6 flex h-1 w-40">
+          <span className="w-1/4 bg-[#4285F4]" />
+          <span className="w-1/4 bg-[#EA4335]" />
+          <span className="w-1/4 bg-[#F9AB00]" />
+          <span className="w-1/4 bg-[#34A853]" />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function ContactEyebrow({ children, color = "blue" }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span
+        aria-hidden="true"
+        className={`size-[7px] rounded-full ${color === "yellow" ? "bg-[#F9AB00]" : "bg-[#4285F4]"}`}
+      />
+      <span className="font-googleSans text-[10px] font-medium uppercase tracking-wide text-[#5F6368]">
+        {children}
+      </span>
     </div>
-    );
+  );
+}
+
+function TextField({ label, name, placeholder, type = "text", required = false }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={name} className="font-googleSans text-xs font-medium text-[#242424]">
+        {label}
+        {required ? " *" : ""}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        required={required}
+        className="min-h-11 w-full rounded-md border border-[#DADCE0] bg-white px-4 font-googleSans text-sm text-[#242424] outline-none transition focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/15"
+      />
+    </div>
+  );
+}
+
+export default function Contact() {
+  const [category, setCategory] = useState(inquiryTypes[0].title);
+  const [formNotice, setFormNotice] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    setFormNotice("The message form is ready, but message delivery is not connected yet.");
+  }
+
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-white text-[#242424]">
+      <ContactHeader />
+
+      <main className="w-full">
+        <section className="mx-auto w-full max-w-[1440px] px-6 pb-10 pt-10 sm:px-10 lg:px-16 lg:pb-12 lg:pt-14 xl:px-24">
+          <div className="max-w-[900px]">
+            <ContactEyebrow>Contact · Let’s connect</ContactEyebrow>
+            <h1 className="mt-5 font-googleSans text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[56px]">
+              Good things start with <span className="text-[#1967D2]">hello.</span>
+            </h1>
+            <p className="mt-4 max-w-[680px] font-googleSans text-sm leading-relaxed text-[#5F6368] sm:text-base">
+              A question, a collaboration, or an idea for the community? Tell us what’s on your
+              mind.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto grid w-full max-w-[1248px] gap-8 px-6 pb-14 sm:px-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14 lg:px-16 xl:grid-cols-[minmax(0,480px)_minmax(0,768px)] xl:gap-24 xl:px-0 xl:pb-16">
+          <aside className="flex flex-col">
+            <h2 className="font-googleSans text-lg font-bold">What brings you here?</h2>
+            <p className="mt-2 font-googleSans text-xs leading-relaxed text-[#5F6368]">
+              Pick the closest topic in the form. We’ll take it from there.
+            </p>
+
+            <div className="mt-5 grid gap-3">
+              {inquiryTypes.map(({ icon: Icon, title, description }) => {
+                const isSelected = category === title;
+
+                return (
+                  <button
+                    key={title}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => setCategory(title)}
+                    className={`flex w-full items-start gap-4 rounded-2xl border p-4 text-left transition-colors ${
+                      isSelected
+                        ? "border-[#D2E3FC] bg-[#EAF2FF]"
+                        : "border-[#DADCE0] bg-white hover:border-[#AECBFA]"
+                    }`}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      size={19}
+                      strokeWidth={1.8}
+                      className={`mt-0.5 shrink-0 ${isSelected ? "text-[#1967D2]" : "text-[#4285F4]"}`}
+                    />
+                    <span className="min-w-0">
+                      <span className="block font-googleSans text-sm font-bold text-[#242424]">
+                        {title}
+                      </span>
+                      <span className="mt-1 block font-googleSans text-xs leading-relaxed text-[#5F6368]">
+                        {description}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 rounded-2xl bg-[#FFF7DF] p-6">
+              <ContactEyebrow color="yellow">Stay curious, stay connected</ContactEyebrow>
+              <h3 className="mt-3 font-googleSans text-lg font-bold leading-tight">
+                Looking for community updates?
+              </h3>
+              <p className="mt-3 font-googleSans text-sm leading-relaxed text-[#5F6368]">
+                Follow <span className="font-bold text-[#242424]">@gdgoc.ugm</span> for learning
+                opportunities and what’s happening in the community.
+              </p>
+              <a
+                href="https://www.instagram.com/gdgoc.ugm/"
+                className="mt-4 inline-flex items-center gap-2 font-googleSans text-sm font-medium text-[#1967D2] hover:underline"
+              >
+                Find @gdgoc.ugm
+                <ArrowRight aria-hidden="true" size={16} strokeWidth={1.7} />
+              </a>
+            </div>
+          </aside>
+
+          <section
+            id="inquiry-form"
+            className="rounded-3xl bg-[#F1F3F4] p-6 sm:p-8 lg:p-9"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="font-googleSans text-xl font-bold sm:text-2xl">
+                Send us a message
+              </h2>
+              <ArrowUpRight aria-hidden="true" className="shrink-0 text-[#1967D2]" size={22} />
+            </div>
+            <p className="mt-2 font-googleSans text-[11px] text-[#5F6368]">
+              Fields marked * are required.
+            </p>
+
+            <form className="mt-6 flex flex-col gap-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <TextField
+                  label="First name"
+                  name="firstName"
+                  placeholder="Your first name"
+                  required
+                />
+                <TextField label="Last name" name="lastName" placeholder="Your last name" />
+              </div>
+
+              <TextField
+                label="Email address"
+                name="email"
+                placeholder="Where we can reply to you"
+                type="email"
+                required
+              />
+              <TextField
+                label="University / organization"
+                name="organization"
+                placeholder="Where you study or work (optional)"
+              />
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="category"
+                  className="font-googleSans text-xs font-medium text-[#242424]"
+                >
+                  Inquiry category *
+                </label>
+                <div className="grid">
+                  <select
+                    id="category"
+                    name="category"
+                    value={category}
+                    onChange={(event) => setCategory(event.target.value)}
+                    className="col-start-1 row-start-1 min-h-11 w-full appearance-none rounded-md border border-[#DADCE0] bg-white px-4 pr-10 font-googleSans text-sm text-[#242424] outline-none transition focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/15"
+                  >
+                    {inquiryTypes.map((type) => (
+                      <option key={type.title} value={type.title}>
+                        {type.title}
+                      </option>
+                    ))}
+                  </select>
+                  <svg
+                    aria-hidden="true"
+                    className="pointer-events-none col-start-1 row-start-1 mr-4 justify-self-end self-center text-[#5F6368]"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                  >
+                    <path
+                      d="M3.5 5.25L7 8.75L10.5 5.25"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <TextField
+                label="Subject"
+                name="subject"
+                placeholder="A short introduction to your question"
+                required
+              />
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="message"
+                  className="font-googleSans text-xs font-medium text-[#242424]"
+                >
+                  Your message *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  required
+                  placeholder="Tell us a little about your question or idea..."
+                  className="w-full resize-y rounded-md border border-[#DADCE0] bg-white px-4 py-3 font-googleSans text-sm text-[#242424] outline-none transition placeholder:text-[#80868B] focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/15"
+                />
+              </div>
+
+              <label className="flex items-start gap-3 font-googleSans text-xs leading-relaxed text-[#5F6368]">
+                <input
+                  name="consent"
+                  type="checkbox"
+                  required
+                  className="mt-0.5 size-4 shrink-0 accent-[#4285F4]"
+                />
+                <span>
+                  I agree that the information I share can be used to respond to this inquiry.
+                </span>
+              </label>
+
+              <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="submit"
+                  className="inline-flex w-fit items-center gap-3 rounded-lg bg-[#4285F4] px-5 py-3 font-googleSans text-sm font-medium text-white transition-colors hover:bg-[#3367D6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1967D2]"
+                >
+                  Send message
+                  <ArrowRight aria-hidden="true" size={17} strokeWidth={1.7} />
+                </button>
+                <p className="max-w-[240px] font-googleSans text-[10px] leading-relaxed text-[#80868B] sm:text-right">
+                  Please don’t include passwords or sensitive personal information.
+                </p>
+              </div>
+              {formNotice && (
+                <p role="status" className="font-googleSans text-xs text-[#5F6368]">
+                  {formNotice}
+                </p>
+              )}
+            </form>
+          </section>
+        </section>
+
+        <section className="border-t border-[#DADCE0] px-6 py-10 sm:px-10 lg:px-16 lg:py-12">
+          <div className="mx-auto grid max-w-[1248px] gap-8 lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-16 xl:gap-24">
+            <div>
+              <ContactEyebrow>A little guidance</ContactEyebrow>
+              <h2 className="mt-4 max-w-[360px] font-googleSans text-3xl font-bold leading-[1.12]">
+                Help us understand your idea.
+              </h2>
+              <a
+                href="/about#overview"
+                className="mt-5 inline-flex items-center gap-2 font-googleSans text-sm font-medium text-[#1967D2] hover:underline"
+              >
+                Explore the programs first
+                <ArrowRight aria-hidden="true" size={16} strokeWidth={1.7} />
+              </a>
+            </div>
+
+            <div className="divide-y divide-[#DADCE0]">
+              {guidance.map((item) => (
+                <article key={item.title} className="py-5 first:pt-0 last:pb-0">
+                  <h3 className="font-googleSans text-base font-bold">{item.title}</h3>
+                  <p className="mt-2 font-googleSans text-sm leading-relaxed text-[#5F6368]">
+                    {item.description}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <ContactFooter />
+    </div>
+  );
 }
