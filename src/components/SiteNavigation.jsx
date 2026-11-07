@@ -11,7 +11,7 @@ const navigation = [
 export default function SiteNavigation({ onAction, actionLabel = "Find your track" }) {
   return (
     <header className="w-full border-b border-[#DADCE0] bg-white">
-      <div className="mx-auto flex min-h-[76px] max-w-[1440px] flex-wrap items-center justify-between gap-3 px-5 py-3 sm:px-8 lg:h-[104px] lg:flex-nowrap lg:px-16">
+      <div className="mx-auto flex min-h-[76px] max-w-[1440px] flex-wrap items-center justify-between gap-3 px-5 py-3 sm:px-8 xl:h-[120px] xl:flex-nowrap xl:px-16">
         <NavLink
           to="/landing"
           aria-label="GDGoC UGM home"
@@ -25,7 +25,7 @@ export default function SiteNavigation({ onAction, actionLabel = "Find your trac
           />
         </NavLink>
 
-        <nav aria-label="Main navigation" className="order-3 flex w-full flex-wrap justify-center gap-1 lg:order-none lg:w-auto lg:gap-2">
+        <nav aria-label="Main navigation" className="order-3 flex w-full flex-wrap justify-center gap-1 xl:order-none xl:w-auto xl:gap-2">
           {navigation.map((item) => (
             <NavLink
               key={item.label}
