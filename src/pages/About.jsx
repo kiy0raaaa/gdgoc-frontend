@@ -6,8 +6,9 @@ import {
   Sparkles,
   UsersRound,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import ApiPageState from "../components/ApiPageState";
+import { getNavigationData } from "../services/api";
 
 const values = [
   {
@@ -58,13 +59,6 @@ const roles = [
   },
 ];
 
-const navigation = [
-  { label: "Home", href: "/landing" },
-  { label: "About", href: "/about" },
-  { label: "Overview", href: "/overview" },
-  { label: "Contact", href: "/contact" },
-];
-
 function ArrowLink({ children, href, className = "" }) {
   return (
     <a
@@ -88,178 +82,51 @@ function Eyebrow({ children }) {
   );
 }
 
-function AboutHeader() {
-  return (
-    <header className="w-full border-b border-[#DADCE0] bg-white">
-      <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-5 px-5 sm:px-8 lg:min-h-[104px] lg:px-16">
-        <a
-          href="/about"
-          className="flex shrink-0 items-center gap-2.5"
-          aria-label="GDGoC UGM home"
-        >
-          <img className="h-9 w-[69px] object-contain" src="/gdg-logo.png" alt="" />
-          <img
-            className="hidden h-[39px] w-[265px] object-contain sm:block"
-            src="/gdgoc-wordmark.svg"
-            alt="Google Developer Groups on Campus, Universitas Gadjah Mada"
-          />
-        </a>
-
-        <nav aria-label="Main navigation" className="hidden items-center gap-2 lg:flex">
-          {navigation.map((item) =>
-            item.label === "About" ? (
-              <NavLink
-                key={item.label}
-                to={item.href}
-                className={({ isActive }) =>
-                  `rounded-full px-5 py-3.5 font-googleSans text-base transition-colors ${
-                    isActive
-                      ? "bg-[#EAF2FF] font-bold text-[#1967D2]"
-                      : "text-[#5F6368] hover:bg-gray-50"
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ) : (
-              <a
-                key={item.label}
-                href={item.href}
-                className="rounded-full px-5 py-3.5 font-googleSans text-base text-[#5F6368] transition-colors hover:bg-gray-50"
-              >
-                {item.label}
-              </a>
-            ),
-          )}
-        </nav>
-
-        <a
-          href="#roles"
-          className="inline-flex shrink-0 items-center gap-3 rounded-lg bg-[#4285F4] px-4 py-3 font-googleSans text-sm font-medium text-white transition-colors hover:bg-[#3367D6] sm:px-6 sm:text-base"
-        >
-          Find your track
-          <ArrowRight aria-hidden="true" size={19} strokeWidth={1.7} />
-        </a>
-      </div>
-      <nav aria-label="Mobile navigation" className="flex justify-center gap-2 pb-3 lg:hidden">
-        {navigation.slice(1).map((item) =>
-          item.label === "About" ? (
-            <NavLink
-              key={item.label}
-              to={item.href}
-              className={({ isActive }) =>
-                `rounded-full px-4 py-2 font-googleSans text-sm ${
-                  isActive ? "bg-[#EAF2FF] font-bold text-[#1967D2]" : "text-[#5F6368]"
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ) : (
-            <a
-              key={item.label}
-              href={item.href}
-              className="rounded-full px-4 py-2 font-googleSans text-sm text-[#5F6368]"
-            >
-              {item.label}
-            </a>
-          ),
-        )}
-      </nav>
-    </header>
-  );
-}
-
-function AboutFooter() {
-  return (
-    <footer className="w-full bg-[#F1F3F4] px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
-      <div className="mx-auto max-w-[1248px]">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_150px_260px] lg:gap-16">
-          <div className="max-w-[480px]">
-            <a href="/about" className="flex w-fit items-center gap-3">
-              <img className="h-10 w-[72px] object-contain" src="/gdg-logo.png" alt="" />
-              <img
-                className="h-10 w-[250px] max-w-full object-contain sm:w-[293px]"
-                src="/gdgoc-wordmark.svg"
-                alt="Google Developer Groups on Campus, Universitas Gadjah Mada"
-              />
-            </a>
-            <p className="mt-5 font-googleSans text-sm leading-relaxed text-[#5F6368]">
-              A student community for curious minds, shared learning, and technology with purpose.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-start gap-3.5">
-            <h2 className="font-googleSans text-sm font-bold text-[#242424]">Explore</h2>
-            {navigation.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="font-googleSans text-sm text-[#5F6368] transition-colors hover:text-[#1967D2]"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-
-          <div className="flex flex-col items-start gap-3.5">
-            <h2 className="font-googleSans text-sm font-bold text-[#242424]">Keep in the loop</h2>
-            <a
-              href="https://www.instagram.com/gdgoc.ugm/"
-              className="font-googleSans text-base text-[#1967D2] hover:underline"
-            >
-              @gdgoc.ugm
-            </a>
-            <div className="flex items-center gap-4 text-[#5F6368]">
-              <a
-                href="https://www.instagram.com/gdgoc.ugm/"
-                aria-label="GDGoC UGM on Instagram"
-                className="transition-colors hover:text-[#1967D2]"
-              >
-                <svg aria-hidden="true" width="19" height="19" viewBox="0 0 20 20" fill="none">
-                  <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="5.25" stroke="currentColor" strokeWidth="1.5" />
-                  <circle cx="10" cy="10" r="4" stroke="currentColor" strokeWidth="1.5" />
-                  <circle cx="15.25" cy="4.75" r="1" fill="currentColor" />
-                </svg>
-              </a>
-              <a
-                href="https://www.youtube.com/"
-                aria-label="GDGoC UGM on YouTube"
-                className="transition-colors hover:text-[#1967D2]"
-              >
-                <svg aria-hidden="true" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <rect x="0.75" y="1" width="18.5" height="14" rx="4" stroke="currentColor" strokeWidth="1.5" />
-                  <path d="M8 5L13 8L8 11V5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </div>
-            <p className="font-googleSans text-xs text-[#5F6368]">
-              Learn together. Build together.
-            </p>
-          </div>
-        </div>
-
-        <div className="my-8 h-px w-full bg-[#DADCE0]" />
-        <div className="flex flex-col gap-2 font-googleSans text-[11px] text-[#5F6368] sm:flex-row sm:items-center sm:justify-between">
-          <p>© GDGoC Universitas Gadjah Mada • 2026/2027</p>
-          <p>Made for the campus. Open to possibilities.</p>
-        </div>
-        <div className="mt-6 flex h-1 w-40">
-          <span className="w-1/4 bg-[#4285F4]" />
-          <span className="w-1/4 bg-[#EA4335]" />
-          <span className="w-1/4 bg-[#F9AB00]" />
-          <span className="w-1/4 bg-[#34A853]" />
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 export default function About() {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadData() {
+      setIsLoading(true);
+      setIsError(false);
+
+      try {
+        const response = await getNavigationData();
+        const navigationData = Array.isArray(response) ? response : response?.data;
+
+        if (!Array.isArray(navigationData)) {
+          throw new Error("Format data API tidak valid");
+        }
+
+        if (isMounted) {
+          setData(navigationData);
+        }
+      } catch (error) {
+        console.error("Gagal memuat data halaman About:", error);
+        if (isMounted) {
+          setIsError(true);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-white text-[#242424]">
-      <AboutHeader />
-
+      <ApiPageState isLoading={isLoading} isError={isError} isEmpty={data.length === 0} />
       <main className="w-full">
         <section className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 px-6 py-12 sm:px-10 md:py-16 lg:flex-row lg:gap-12 lg:px-16 xl:gap-16 xl:px-24 xl:py-20">
           <div className="flex w-full flex-col items-start gap-5 lg:max-w-[720px] lg:gap-[26px]">
@@ -423,8 +290,6 @@ export default function About() {
           </div>
         </section>
       </main>
-
-      <AboutFooter />
     </div>
   );
 }

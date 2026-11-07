@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import SiteNavigation from '../components/SiteNavigation';
+import { useEffect, useState } from 'react';
+import ApiPageState from '../components/ApiPageState';
+import { getNavigationData } from '../services/api';
 
 const assetPathPrefix = "/assets";
 const imgRectangle1 = `${assetPathPrefix}/imgRectangle1.png`;
@@ -41,9 +41,47 @@ const faqs = [
     { q: 'Is this only for computer science students?', a: 'Different disciplines bring different perspectives. Explore the overview to find a starting point that fits your interests.' },
     { q: 'How can I find learning opportunities?', a: 'Keep an eye on @gdgoc.ugm for community updates. You can also use the contact page to ask about getting involved.' },
     ];
-    export default function LandingGdGoCUgm() {
+    export default function Landing() {
     const [openFaq, setOpenFaq] = useState(0);
-    const navigate = useNavigate();
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+
+    useEffect(() => {
+    let isMounted = true;
+
+    async function loadData() {
+        setIsLoading(true);
+        setIsError(false);
+
+        try {
+        const response = await getNavigationData();
+        const navigationData = Array.isArray(response) ? response : response?.data;
+
+        if (!Array.isArray(navigationData)) {
+            throw new Error("Format data API tidak valid");
+        }
+
+        if (isMounted) {
+            setData(navigationData);
+        }
+        } catch (error) {
+        console.error("Gagal memuat data halaman Landing:", error);
+        if (isMounted) {
+            setIsError(true);
+        }
+        } finally {
+        if (isMounted) {
+            setIsLoading(false);
+        }
+        }
+    }
+
+    loadData();
+    return () => {
+        isMounted = false;
+    };
+    }, []);
 
     const go = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -51,7 +89,7 @@ const faqs = [
 
     return (
     <div className="bg-white content-stretch flex min-h-screen w-full flex-col items-start relative" data-node-id="14:16047" data-name="Landing - GDGoC UGM">
-        <SiteNavigation onAction={() => navigate('/overview')} />
+        <ApiPageState isLoading={isLoading} isError={isError} isEmpty={data.length === 0} />
         <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-node-id="14:16065" id="home" data-name="Welcome to the community">
         <div className="content-stretch flex w-full flex-col gap-10 items-center px-5 py-12 relative sm:px-8 lg:flex-row lg:gap-[40px] lg:pb-16 lg:pl-24 lg:pr-16 lg:pt-[72px]" data-node-id="14:16066" data-name="Hero">
             <div className="content-stretch flex w-full max-w-[620px] flex-1 flex-col gap-7 items-start overflow-clip relative min-w-0 lg:gap-[28px]">
@@ -782,82 +820,6 @@ const faqs = [
                 </div>
             </div>
             </div>
-        </div>
-        </div>
-        <div className="bg-[#f1f3f4] content-stretch flex flex-col gap-10 items-start overflow-clip pb-7 pt-14 px-5 relative w-full sm:px-8 lg:px-24" data-node-id="14:16473" data-name="Footer">
-        <div className="content-stretch flex w-full flex-col items-start justify-between gap-10 overflow-clip md:flex-row" data-node-id="14:16474" data-name="Footer content">
-            <div className="content-stretch flex w-full max-w-[480px] flex-col gap-6 items-start overflow-clip relative shrink-0" data-node-id="14:16475" data-name="Community identity">
-            <div className="content-stretch flex gap-2 items-center relative shrink-0 sm:gap-[12.49px]" data-node-id="14:16476" data-name="GDGoC UGM identity">
-                <div className="relative h-8 w-[58px] shrink-0 sm:h-[42.199px] sm:w-[76.32px]" data-node-id="I14:16476;156:48312" data-name="Rectangle">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" height="42.199" src={imgRectangle1} width="76.32" />
-                </div>
-                <div className="relative h-8 w-[min(60vw,293px)] shrink-0 sm:h-[42.72px] sm:w-[292.761px]" data-node-id="I14:16476;156:48313" data-name="Google Developer Groups On Campus • Universitas Gadjah Mada">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGoogleDeveloperGroupsOnCampusUniversitasGadjahMada1} />
-                </div>
-            </div>
-            <p className="[word-break:break-word] font-sans font-normal leading-[1.55] min-w-full not-italic relative shrink-0 text-[#5f6368] text-[16px] w-[min-content]" data-node-id="14:16479">
-                A student community for curious minds, shared learning, and technology with purpose.
-            </p>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[14px] items-start leading-[normal] not-italic overflow-clip relative shrink-0 w-[150px] whitespace-nowrap" data-node-id="14:16480" data-name="Explore">
-            <p className="font-sans font-bold relative shrink-0 text-[16px] text-black" data-node-id="14:16481">
-                Explore
-            </p>
-            <p className="font-sans font-normal relative shrink-0 text-[#5f6368] text-[15px]" data-node-id="14:16482">
-                Home
-            </p>
-            <p className="font-sans font-normal relative shrink-0 text-[#5f6368] text-[15px]" data-node-id="14:16483">
-                About
-            </p>
-            <p className="font-sans font-normal relative shrink-0 text-[#5f6368] text-[15px]" data-node-id="14:16484">
-                Overview
-            </p>
-            <p className="font-sans font-normal relative shrink-0 text-[#5f6368] text-[15px]" data-node-id="14:16485">
-                Contact
-            </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[16px] items-start overflow-clip relative shrink-0 w-full md:w-[260px]" data-node-id="14:16486" data-name="Connect">
-            <p className="[word-break:break-word] font-sans font-bold leading-[normal] not-italic relative shrink-0 text-[16px] text-black whitespace-nowrap" data-node-id="14:16487">
-                Keep in the loop
-            </p>
-            <p className="[word-break:break-word] font-sans font-normal leading-[normal] not-italic relative shrink-0 text-[#1967d2] text-[18px] whitespace-nowrap" data-node-id="14:16488">
-                @gdgoc.ugm
-            </p>
-            <div className="content-stretch flex gap-[16px] items-start overflow-clip relative shrink-0" data-node-id="14:16489" data-name="Social channels">
-                <div className="relative shrink-0 size-[24px]" data-node-id="14:16490" data-name="Instagram">
-                <div className="absolute inset-[14.58%]" data-node-id="I14:16490;156:47462" data-name="Group">
-                    <div className="absolute inset-[-4.41%]">
-                    <img alt="" className="block max-w-none size-full" src={imgGroup14} />
-                    </div>
-                </div>
-                </div>
-                <div className="relative shrink-0 size-[24px]" data-node-id="14:16495" data-name="YouTube">
-                <div className="absolute inset-[20.91%_10.21%]" data-node-id="I14:16495;156:48221" data-name="Group">
-                    <div className="absolute inset-[-5.37%_-3.93%]">
-                    <img alt="" className="block max-w-none size-full" src={imgGroup15} />
-                    </div>
-                </div>
-                </div>
-            </div>
-            <p className="[word-break:break-word] font-sans font-normal leading-[1.55] min-w-full not-italic relative shrink-0 text-[#5f6368] text-[14px] w-[min-content]" data-node-id="14:16499">
-                Learn together. Build together.
-            </p>
-            </div>
-        </div>
-        <div className="bg-[#dadce0] h-px relative shrink-0 w-full" data-node-id="14:16500" data-name="Divider" />
-        <div className="[word-break:break-word] content-stretch flex flex-col gap-2 font-sans font-normal items-start justify-between leading-[normal] not-italic overflow-clip relative shrink-0 text-[#5f6368] text-[12px] w-full sm:flex-row sm:gap-4">
-            <p className="relative shrink-0" data-node-id="14:16502">
-            © GDGoC Universitas Gadjah Mada • 2026/2027
-            </p>
-            <p className="relative shrink-0" data-node-id="14:16503">
-            Made for the campus. Open to possibilities.
-            </p>
-        </div>
-        <div className="content-stretch flex h-[4px] items-start overflow-clip relative shrink-0 w-[160px]" data-node-id="14:16504" data-name="Brand signature">
-            <div className="bg-[#4284f4] flex-[1_0_0] h-[4px] min-w-px relative" data-node-id="14:16505" data-name="Brand segment" />
-            <div className="bg-[#ea4335] flex-[1_0_0] h-[4px] min-w-px relative" data-node-id="14:16506" data-name="Brand segment" />
-            <div className="bg-[#f9ab00] flex-[1_0_0] h-[4px] min-w-px relative" data-node-id="14:16507" data-name="Brand segment" />
-            <div className="bg-[#34a853] flex-[1_0_0] h-[4px] min-w-px relative" data-node-id="14:16508" data-name="Brand segment" />
         </div>
         </div>
     </div>
