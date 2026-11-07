@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
+
 const values = [
   {
     title: "Stay curious",
@@ -58,9 +59,9 @@ const roles = [
 ];
 
 const navigation = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/landing" },
   { label: "About", href: "/about" },
-  { label: "Overview", href: "/about#overview" },
+  { label: "Overview", href: "/overview" },
   { label: "Contact", href: "/contact" },
 ];
 

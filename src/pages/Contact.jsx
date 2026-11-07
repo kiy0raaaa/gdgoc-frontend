@@ -44,9 +44,9 @@ const guidance = [
 ];
 
 const navigation = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/landing" },
   { label: "About", href: "/about" },
-  { label: "Overview", href: "/about#overview" },
+  { label: "Overview", href: "/overview" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -55,7 +55,7 @@ function ContactHeader() {
     <header className="w-full border-b border-[#DADCE0] bg-white">
       <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-5 px-5 sm:px-8 lg:min-h-[104px] lg:px-16">
         <a
-          href="/about"
+          href="/landing"
           aria-label="GDGoC UGM home"
           className="flex shrink-0 items-center gap-2.5"
         >
@@ -141,7 +141,7 @@ function ContactFooter() {
       <div className="mx-auto max-w-[1248px]">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_150px_260px] lg:gap-16">
           <div className="max-w-[480px]">
-            <a href="/about" className="flex w-fit items-center gap-3">
+            <a href="/landing" className="flex w-fit items-center gap-3">
               <img className="h-10 w-[72px] object-contain" src="/gdg-logo.png" alt="" />
               <img
                 className="h-10 w-[250px] max-w-full object-contain sm:w-[293px]"
@@ -505,7 +505,7 @@ export default function Contact() {
                 Help us understand your idea.
               </h2>
               <a
-                href="/about#overview"
+                href="/overview"
                 className="mt-5 inline-flex items-center gap-2 font-googleSans text-sm font-medium text-[#1967D2] hover:underline"
               >
                 Explore the programs first
