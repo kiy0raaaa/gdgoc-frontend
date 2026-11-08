@@ -54,129 +54,129 @@ artwork: [
 ];
 
 const pathways = [
-[
-"Research & discovery",
-"Listening, problem framing, and testing assumptions",
-"A research insight and a focused problem brief",
-],
-[
-"Design & creativity",
-"Ideation, user flows, and prototype feedback",
-"An interactive prototype and a design story",
-],
-[
-"Development",
-"Coding, testing, and iterating",
-"A working demo with a clear explanation",
-],
-];
+    [
+    "Research & discovery",
+    "Listening, problem framing, and testing assumptions",
+    "A research insight and a focused problem brief",
+    ],
+    [
+    "Design & creativity",
+    "Ideation, user flows, and prototype feedback",
+    "An interactive prototype and a design story",
+    ],
+    [
+    "Development",
+    "Coding, testing, and iterating",
+    "A working demo with a clear explanation",
+    ],
+    ];
 
 const learningFormats = [
-{
-title: "Study groups",
-description:
-    "Build foundations with your peers. Work through a topic, compare approaches, and make space for questions.",
-detail: "Peer learning · Fundamentals",
-Icon: BookOpen,
-color: "text-[#4285F4]",
-surface: "bg-[#EAF2FF]",
-},
-{
-title: "Hands-on workshops",
-description:
-    "Get introduced to a tool or method, follow a practical exercise, and take away something to keep exploring.",
-detail: "Deep dive · Try something new",
-Icon: Code2,
-color: "text-[#34A853]",
-surface: "bg-[#E6F4EA]",
-},
-{
-title: "Project circles",
-description:
-    "Connect research, design, and development around a shared problem. Learn through making and feedback.",
-detail: "Build · Try · Improve",
-Icon: FolderKanban,
-color: "text-[#F9AB00]",
-surface: "bg-[#FEF7E0]",
-},
-{
-title: "Knowledge sharing",
-description:
-    "Share a new skill, a project, or a lesson from your process, and discover how other students approach their work.",
-detail: "Share · Get a different perspective",
-Icon: MessagesSquare,
-color: "text-[#EA4335]",
-surface: "bg-[#FCE8E6]",
-},
+    {
+    title: "Study groups",
+    description:
+        "Build foundations with your peers. Work through a topic, compare approaches, and make space for questions.",
+    detail: "Peer learning · Fundamentals",
+    Icon: BookOpen,
+    color: "text-[#4285F4]",
+    surface: "bg-[#EAF2FF]",
+    },
+    {
+    title: "Hands-on workshops",
+    description:
+        "Get introduced to a tool or method, follow a practical exercise, and take away something to keep exploring.",
+    detail: "Deep dive · Try something new",
+    Icon: Code2,
+    color: "text-[#34A853]",
+    surface: "bg-[#E6F4EA]",
+    },
+    {
+    title: "Project circles",
+    description:
+        "Connect research, design, and development around a shared problem. Learn through making and feedback.",
+    detail: "Build · Try · Improve",
+    Icon: FolderKanban,
+    color: "text-[#F9AB00]",
+    surface: "bg-[#FEF7E0]",
+    },
+    {
+    title: "Knowledge sharing",
+    description:
+        "Share a new skill, a project, or a lesson from your process, and discover how other students approach their work.",
+    detail: "Share · Get a different perspective",
+    Icon: MessagesSquare,
+    color: "text-[#EA4335]",
+    surface: "bg-[#FCE8E6]",
+    },
 ];
 
 const journeySteps = [
-["01", "Discover", "Explore a topic and find the questions you want to answer."],
-["02", "Practice", "Try an exercise, work through a challenge, and ask for help."],
-["03", "Build", "Apply your learning to a small idea or a shared project."],
-["04", "Share", "Show your progress, gather feedback, and help someone else."],
+    ["01", "Discover", "Explore a topic and find the questions you want to answer."],
+    ["02", "Practice", "Try an exercise, work through a challenge, and ask for help."],
+    ["03", "Build", "Apply your learning to a small idea or a shared project."],
+    ["04", "Share", "Show your progress, gather feedback, and help someone else."],
 ];
 
 const jumpLinks = [
-["Learning tracks", "learning-tracks"],
-["Learning formats", "learning-formats"],
-["Your learning journey", "learning-journey"],
-["Find a starting point", "starting-point"],
+    ["Learning tracks", "learning-tracks"],
+    ["Learning formats", "learning-formats"],
+    ["Your learning journey", "learning-journey"],
+    ["Find a starting point", "starting-point"],
 ];
 
 function Eyebrow({ children }) {
 return (
-<div className="flex items-center gap-2.5">
-    <span aria-hidden="true" className="size-[7px] rounded-full bg-[#4285F4]" />
-    <span className="font-googleSans text-xs font-medium uppercase tracking-wide text-[#5F6368]">
-    {children}
-    </span>
-</div>
-);
+    <div className="flex items-center gap-2.5">
+        <span aria-hidden="true" className="size-[7px] rounded-full bg-[#4285F4]" />
+        <span className="font-googleSans text-xs font-medium uppercase tracking-wide text-[#5F6368]">
+        {children}
+        </span>
+    </div>
+    );
 }
 
 function TrackArtwork({ track, className = "" }) {
 return (
-<div
-    className={`relative aspect-square w-full max-w-[252px] ${className}`}
-    role="img"
-    aria-label={`${track.title} illustration`}
->
-    {track.artwork.map(([src, position]) => (
-    <img key={src} src={src} alt="" className={`absolute ${position}`} />
-    ))}
-</div>
-);
+    <div
+        className={`relative aspect-square w-full max-w-[252px] ${className}`}
+        role="img"
+        aria-label={`${track.title} illustration`}
+    >
+        {track.artwork.map(([src, position]) => (
+        <img key={src} src={src} alt="" className={`absolute ${position}`} />
+        ))}
+    </div>
+    );
 }
 
 function TrackCard({ track }) {
 return (
-<article className="flex flex-col overflow-hidden rounded-[20px] border border-[#DADCE0] bg-white transition-shadow hover:shadow-lg">
-    <div className={`${track.color} grid h-[208px] place-items-center overflow-hidden sm:h-[228px]`}>
-    <TrackArtwork track={track} />
-    </div>
-    <div className="flex flex-1 flex-col items-start gap-3.5 p-5 sm:min-h-[305px] sm:p-6">
-    <p className="font-googleSans text-[10px] font-medium uppercase tracking-wide text-[#1967D2]">
-        {track.eyebrow}
-    </p>
-    <h3 className="font-googleSans text-[21px] font-bold leading-tight text-[#242424] sm:text-[24px]">
-        {track.title}
-    </h3>
-    <p className="font-googleSans text-[13px] leading-[1.55] text-[#5F6368]">
-        {track.description}
-    </p>
-    <div className="mt-auto w-full border-t border-[#DADCE0] pt-3">
-        <p className="font-googleSans text-xs text-[#5F6368]">{track.skills}</p>
-        <Link
-        to="/contact"
-        className="mt-3 inline-flex items-center gap-1.5 font-googleSans text-[13px] font-medium text-[#1967D2] hover:text-[#174EA6]"
-        >
-        Explore this track <ArrowRight aria-hidden="true" size={14} />
-        </Link>
-    </div>
-    </div>
-</article>
-);
+    <article className="flex flex-col overflow-hidden rounded-[20px] border border-[#DADCE0] bg-white transition-shadow hover:shadow-lg">
+        <div className={`${track.color} grid h-[208px] place-items-center overflow-hidden sm:h-[228px]`}>
+        <TrackArtwork track={track} />
+        </div>
+        <div className="flex flex-1 flex-col items-start gap-3.5 p-5 sm:min-h-[305px] sm:p-6">
+        <p className="font-googleSans text-[10px] font-medium uppercase tracking-wide text-[#1967D2]">
+            {track.eyebrow}
+        </p>
+        <h3 className="font-googleSans text-[21px] font-bold leading-tight text-[#242424] sm:text-[24px]">
+            {track.title}
+        </h3>
+        <p className="font-googleSans text-[13px] leading-[1.55] text-[#5F6368]">
+            {track.description}
+        </p>
+        <div className="mt-auto w-full border-t border-[#DADCE0] pt-3">
+            <p className="font-googleSans text-xs text-[#5F6368]">{track.skills}</p>
+            <Link
+            to="/contact"
+            className="mt-3 inline-flex items-center gap-1.5 font-googleSans text-[13px] font-medium text-[#1967D2] hover:text-[#174EA6]"
+            >
+            Explore this track <ArrowRight aria-hidden="true" size={14} />
+            </Link>
+        </div>
+        </div>
+    </article>
+    );
 }
 
 export default function Overview() {

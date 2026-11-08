@@ -9,11 +9,9 @@ import Overview from "./pages/Overview";
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Wrapper utama agar konten minimal setinggi layar */}
       <div className="flex min-h-screen flex-col bg-white">
         <Navbar />
         
-        {/* Main mengatur flex-grow agar konten mengisi ruang kosong di antara Nav dan Footer */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Navigate to="/landing" replace />} />

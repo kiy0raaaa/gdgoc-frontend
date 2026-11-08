@@ -49,7 +49,6 @@ const navigation = [
             >
                 @gdgoc.ugm
             </a>
-            {/* ... bagian icon sosial media biarkan sama seperti di AboutFooter kamu sebelumnya ... */}
             <p className="font-googleSans text-xs text-[#5F6368]">
                 Learn together. Build together.
             </p>

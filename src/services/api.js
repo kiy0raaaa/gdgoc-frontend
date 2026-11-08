@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Membaca URL API dari file .env
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://gdgoc-ugm-api.vercel.app/api';
 
 export const getNavigationData = async () => {
