@@ -5,7 +5,7 @@ A responsive web application built for the GDGoC UGM Hacker Track (Front-End) se
 ## 🚀 Live Demo
 - **Deployed Site:** [kiara-gdgoc-frontend.vercel.app](https://kiara-gdgoc-frontend.vercel.app/)
 - **Repository:** [github.com/kiy0raaaa/gdgoc-frontend](https://github.com/kiy0raaaa/gdgoc-frontend)
-- **Video Presentation:** [Kiara - GDGoC Video Presentation](https://drive.google.com/file/d/1OT1Hkg7zQbe_LB3204Q0FdgTxpWpur_r/view?usp=sharing)
+- **Video Presentation:** [Kiara - GDGoC Video Presentation](https://drive.google.com/drive/folders/1r9HOKowZpYsh4cvgg5xGdUg8tVGfk1B2?usp=sharing)
 
 ## 🛠️ Tech Stack
 - **Framework:** React.js (via Vite)
